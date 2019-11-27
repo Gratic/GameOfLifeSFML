@@ -1,0 +1,3 @@
+C:/Users/Fraxinus/Documents/Codes/CPP/GameOfLifeSFML/cmake-build-debug/CMakeFiles/GameOfLifeSFML.dir
+C:/Users/Fraxinus/Documents/Codes/CPP/GameOfLifeSFML/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Fraxinus/Documents/Codes/CPP/GameOfLifeSFML/cmake-build-debug/CMakeFiles/rebuild_cache.dir
