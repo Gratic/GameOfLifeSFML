@@ -3,10 +3,9 @@
 //
 
 #include "Grid.h"
-#include <vector>
 #include "Cell.h"
 #include "SFML/Graphics.hpp"
-#include "iostream"
+#include <vector>
 
 std::vector<std::vector<Cell>> &Grid::getCells() {
     return cells;
@@ -33,7 +32,8 @@ void Grid::setPosition(const sf::Vector2f &position) {
 }
 
 Grid::Grid(const sf::Vector2f &numberOfCells, const sf::Vector2f &position, const sf::Vector2f &sizeOfCell) : numberOfCells(numberOfCells),
-                                                                              position(position),sizeOfCell(sizeOfCell){
+                                                                              position(position),sizeOfCell(sizeOfCell),
+                                                                              generated(false), inUse(false){
     cells = std::vector<std::vector<Cell>>(numberOfCells.x, std::vector<Cell>(numberOfCells.y));
 }
 
@@ -46,6 +46,8 @@ void Grid::setSizeOfCell(const sf::Vector2f &sizeOfCell) {
 }
 
 void Grid::generateGrid() {
+    resetGrid();
+
     for(int i(0); i < numberOfCells.x; i++)
     {
         cells[i] = std::vector<Cell>();
@@ -56,6 +58,19 @@ void Grid::generateGrid() {
             cells[i].push_back(c);
         }
     }
+
+    findNeighbors();
+    generated = true;
+}
+
+void Grid::resetGrid() {
+    generated = false;
+
+    while(inUse)
+    {
+
+    }
+    cells = std::vector<std::vector<Cell>>(numberOfCells.x, std::vector<Cell>(numberOfCells.y));
 }
 
 void Grid::findNeighbors() {
@@ -97,7 +112,7 @@ void Grid::findNeighbors() {
     }
 }
 
-Cell Grid::findCell(int x, int y)
+Cell& Grid::findCell(int x, int y)
 {
     for(int i(0); i < i < numberOfCells.x; i++) {
         for(int j(0); j < numberOfCells.y; j++) {
@@ -107,11 +122,59 @@ Cell Grid::findCell(int x, int y)
     }
 }
 
-Cell Grid::findCell(sf::Vector2f position) {
-    for(int i(0); i < cells.size(); i++) {
-        for(int j(0); j < numberOfCells.y; j++) {
-            if(cells[i][j].getPositionIndexes().x == position.x && cells[i][j].getPositionIndexes().y == position.y)
-                return cells[i][j];
+Cell& Grid::findCell(sf::Vector2f position) {
+    return findCell(position.x, position.y);
+}
+
+Cell& Grid::findCell(sf::Vector2i position) {
+    return findCell(position.x, position.y);
+}
+
+bool Grid::isGenerated() const {
+    return generated;
+}
+
+void Grid::setGenerated(bool generated) {
+    Grid::generated = generated;
+}
+
+bool Grid::isInUse() const {
+    return inUse;
+}
+
+void Grid::setInUse(bool inUse) {
+    Grid::inUse = inUse;
+}
+
+sf::Vector2i Grid::mouseToCellPos(Grid grid, sf::Vector2i mouse) {
+    sf::Vector2i cellpos;
+
+    for(int x(0); x < grid.numberOfCells.x; x++)
+    {
+        for(int y(0); y < grid.numberOfCells.y; y++)
+        {
+            if(Grid::pointInRect(mouse.x,
+                    mouse.y,
+                    grid.cells[x][y].getPosition().x,
+                    grid.cells[x][y].getPosition().y,
+                    grid.sizeOfCell.x,
+                    grid.sizeOfCell.y))
+            {
+                cellpos = sf::Vector2i(x, y);
+                break;
+            }
         }
     }
+
+    return cellpos;
+}
+
+
+bool Grid::pointInRect(float px, float py, float rx, float ry, float rw, float rh) {
+
+    // is the point inside the rectangle's bounds?
+    return px >= rx &&        // right of the left edge AND
+           px <= rx + rw &&   // left of the right edge AND
+           py >= ry &&        // below the top AND
+           py <= ry + rh;
 }

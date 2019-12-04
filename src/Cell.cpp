@@ -5,8 +5,6 @@
 #include "Cell.h"
 #include <map>
 #include "SFML/Graphics.hpp"
-#include <iostream>
-#include <random>
 
 sf::Vector2f Cell::getPosition() {
     return position;

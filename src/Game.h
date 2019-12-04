@@ -5,11 +5,12 @@
 #ifndef GAMEOFLIFESFML_GAME_H
 #define GAMEOFLIFESFML_GAME_H
 
-#include "Game.h"
+#include <chrono>
+#include <thread>
+#include "SFML/Graphics.hpp"
 #include "Grid.h"
 #include "Cell.h"
 #include "vector"
-#include "SFML/Graphics.hpp"
 
 class Game : public sf::Drawable {
 private:
@@ -18,6 +19,8 @@ private:
     sf::Vector2f numberOfCells;
     sf::Vector2f sizeOfCells;
     bool play;
+    bool launched;
+    int iteration;
 public:
     Game(const sf::Vector2f &position, const sf::Vector2f &numberOfCells, const sf::Vector2f &sizeOfCells, bool play);
 
@@ -41,7 +44,27 @@ public:
 
     void setPlay(bool play);
 
+    bool isLaunched() const;
+
+    void setLaunched(bool launched);
+
+    int getIteration() const;
+
+    void setIteration(int iteration);
+
+    void resetGrid();
+
+    void pause();
+
     void gameOfLife();
+
+    void asyncGameOfLife();
+
+    void changeCellStatus(sf::Vector2i position, int status);
+
+    int getCellStatus(sf::Vector2i position);
+
+    sf::Vector2i mouseToCellPos(sf::Vector2i mouse);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {

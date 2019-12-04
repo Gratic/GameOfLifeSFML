@@ -46,7 +46,7 @@ public:
         sf::RectangleShape r_cell = sf::RectangleShape(size);
         r_cell.setPosition(position);
         r_cell.setOutlineThickness(-1);
-        r_cell.setOutlineColor(sf::Color::Red);
+        r_cell.setOutlineColor(sf::Color::Black);
         if(status == 1)
             r_cell.setFillColor(sf::Color::White);
         else
