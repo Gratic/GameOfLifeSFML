@@ -27,7 +27,11 @@ Gratic
 
 ## Comment
 
-It was fun to do a project with a graphic library. This is the first time since a year or so that I've touched C++. This project is highly Object Oriented. The goal was to design a Object Orient Game of Life. It would have been "easier" to do it the procedural way, but it was fun and challenging. I've deepened my knowledge of C++.
+It was fun to do a project with a graphic library. This is the first time since a year or so that I've touched C++. This project is highly Object Oriented. The goal was to design a Object Oriented Game of Life. It would have been "easier" to do it the procedural way, but it was fun and challenging. I've deepened my knowledge of C++.
+
+## Next
+
+Add some GUI feature (number of iteration, title, buttons)
 
 ## Acknowledgments
 
