@@ -1,6 +1,6 @@
 # GameOfLifeSFML
  
-GameOfLifeSFML is a little project of a well, a Conway's Game of life. It was made using the SFML library in C++.
+GameOfLifeSFML is a little Object Oriented project of a well, a Conway's Game of life. It was made using the SFML library in C++.
 
 ## Installation
 
@@ -24,6 +24,10 @@ Mouse events : On cell click toggle 1 or 0.
 ## Author
 
 Gratic
+
+## Comment
+
+It was fun to do a project with a graphic library. This is the first time since a year or so that I've touched C++. This project is highly Object Oriented. The goal was to design a Object Orient Game of Life. It would have been "easier" to do it the procedural way, but it was fun and challenging. I've deepened my knowledge of C++.
 
 ## Acknowledgments
 
