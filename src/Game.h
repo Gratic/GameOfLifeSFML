@@ -21,8 +21,27 @@ private:
     bool play;
     bool launched;
     int iteration;
+    int delay;
 public:
-    Game(const sf::Vector2f &position, const sf::Vector2f &numberOfCells, const sf::Vector2f &sizeOfCells, bool play);
+    Game(const sf::Vector2f &position, const sf::Vector2f &numberOfCells, const sf::Vector2f &sizeOfCells, bool play, int delay);
+
+    Game();
+
+    void resetGrid();
+
+    void pause();
+
+    void gameOfLife();
+
+    void asyncGameOfLife();
+
+    sf::Vector2i mouseToCellPos(sf::Vector2i mouse);
+
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(grid);
+    }
+
 
     Grid & getGrid();
 
@@ -52,24 +71,13 @@ public:
 
     void setIteration(int iteration);
 
-    void resetGrid();
-
-    void pause();
-
-    void gameOfLife();
-
-    void asyncGameOfLife();
-
-    void changeCellStatus(sf::Vector2i position, int status);
+    void setCellStatus(sf::Vector2i position, int status);
 
     int getCellStatus(sf::Vector2i position);
 
-    sf::Vector2i mouseToCellPos(sf::Vector2i mouse);
+    int getDelay() const;
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
-    {
-        target.draw(grid);
-    }
+    void setDelay(int delay);
 };
 
 

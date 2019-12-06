@@ -10,6 +10,72 @@
 #include "vector"
 #include "SFML/Graphics.hpp"
 
+Game::Game() : position(sf::Vector2f()), numberOfCells(sf::Vector2f()), sizeOfCells(sf::Vector2f()), play(false), grid(sf::Vector2f(), sf::Vector2f(), sf::Vector2f()), iteration(0), delay(100) {}
+
+Game::Game(const sf::Vector2f &position, const sf::Vector2f &numberOfCells, const sf::Vector2f &sizeOfCells, bool play, int delay)
+        : position(position), numberOfCells(numberOfCells), sizeOfCells(sizeOfCells), play(play), grid(numberOfCells, position, sizeOfCells), iteration(0), delay(delay) {
+    srand(time(NULL));
+    grid.generateGrid();
+}
+/*
+ * gameOfLife() : Do one iteration of game of life
+ */
+
+void Game::gameOfLife() {
+    if (!play || !getGrid().isGenerated())
+        return;
+
+    grid.setInUse(true);
+
+    std::vector<std::vector<Cell>> cells(grid.getCells());
+    for (int i(0); i < numberOfCells.x; i++) {
+        for (int j(0); j < numberOfCells.y; j++) {
+            int neighbors = grid.getCells()[i][j].numberOfNeighbors(1);
+            int status = grid.getCells()[i][j].getStatus();
+
+            if(status == 1 && neighbors < 2)
+                cells[i][j].setStatus(0);
+            else if(status == 1 && neighbors > 3)
+                cells[i][j].setStatus(0);
+            else if(status == 1 && (neighbors == 2 || neighbors == 3))
+                cells[i][j].setStatus(1);
+            else if(status == 0 && neighbors == 3)
+                cells[i][j].setStatus(1);
+        }
+    }
+
+    grid.setCells(cells);
+    grid.findNeighbors();
+
+    grid.setInUse(false);
+    iteration++;
+    std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+
+}
+
+void Game::resetGrid() {
+    iteration = 0;
+    grid.generateGrid();
+}
+
+void Game::pause() {
+    setPlay(!isPlay());
+}
+
+void Game::asyncGameOfLife() {
+    launched = true;
+    while(launched) {
+        while (play && getGrid().isGenerated()) {
+            gameOfLife();
+        }
+    }
+}
+
+
+sf::Vector2i Game::mouseToCellPos(sf::Vector2i mouse) {
+    return Grid::mouseToCellPos(grid, mouse);
+}
+
 Grid& Game::getGrid() {
     return grid;
 }
@@ -54,62 +120,6 @@ void Game::setPlay(bool play) {
     Game::play = play;
 }
 
-Game::Game(const sf::Vector2f &position, const sf::Vector2f &numberOfCells, const sf::Vector2f &sizeOfCells, bool play)
-        : position(position), numberOfCells(numberOfCells), sizeOfCells(sizeOfCells), play(play), grid(numberOfCells, position, sizeOfCells), iteration(0) {
-    srand(time(NULL));
-    grid.generateGrid();
-}
-
-void Game::gameOfLife() {
-    if (!play || !getGrid().isGenerated())
-        return;
-
-    grid.setInUse(true);
-
-    std::vector<std::vector<Cell>> cells(grid.getCells());
-    for (int i(0); i < numberOfCells.x; i++) {
-        for (int j(0); j < numberOfCells.y; j++) {
-            int neighbors = grid.getCells()[i][j].numberOfNeighbors(1);
-            int status = grid.getCells()[i][j].getStatus();
-
-            if(status == 1 && neighbors < 2)
-                cells[i][j].setStatus(0);
-            else if(status == 1 && neighbors > 3)
-                cells[i][j].setStatus(0);
-            else if(status == 1 && (neighbors == 2 || neighbors == 3))
-                cells[i][j].setStatus(1);
-            else if(status == 0 && neighbors == 3)
-                cells[i][j].setStatus(1);
-        }
-    }
-
-    grid.setCells(cells);
-    grid.findNeighbors();
-
-    grid.setInUse(false);
-    iteration++;
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-}
-
-void Game::resetGrid() {
-    iteration = 0;
-    grid.generateGrid();
-}
-
-void Game::pause() {
-    setPlay(!isPlay());
-}
-
-void Game::asyncGameOfLife() {
-    launched = true;
-    while(launched) {
-        while (play && getGrid().isGenerated()) {
-            gameOfLife();
-        }
-    }
-}
-
 bool Game::isLaunched() const {
     return launched;
 }
@@ -118,11 +128,7 @@ void Game::setLaunched(bool launched) {
     Game::launched = launched;
 }
 
-sf::Vector2i Game::mouseToCellPos(sf::Vector2i mouse) {
-    return Grid::mouseToCellPos(grid, mouse);
-}
-
-void Game::changeCellStatus(sf::Vector2i position, int status) {
+void Game::setCellStatus(sf::Vector2i position, int status) {
     grid.findCell(position).setStatus(status);
 }
 
@@ -136,4 +142,12 @@ int Game::getIteration() const {
 
 void Game::setIteration(int iteration) {
     Game::iteration = iteration;
+}
+
+int Game::getDelay() const {
+    return delay;
+}
+
+void Game::setDelay(int delay) {
+    Game::delay = delay;
 }
