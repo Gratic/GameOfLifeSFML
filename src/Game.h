@@ -15,15 +15,15 @@
 class Game : public sf::Drawable {
 private:
     Grid grid;
-    sf::Vector2f position;
-    sf::Vector2f numberOfCells;
-    sf::Vector2f sizeOfCells;
+    sf::Vector2i position;
+    sf::Vector2i numberOfCells;
+    sf::Vector2i sizeOfCells;
     bool play;
     bool launched;
     int iteration;
     int delay;
 public:
-    Game(const sf::Vector2f &position, const sf::Vector2f &numberOfCells, const sf::Vector2f &sizeOfCells, bool play, int delay);
+    Game(const sf::Vector2i &position, const sf::Vector2i &numberOfCells, const sf::Vector2i &sizeOfCells, bool play, int delay);
 
     Game();
 
@@ -47,17 +47,17 @@ public:
 
     void setGrid(const Grid &grid);
 
-    const sf::Vector2f &getPosition();
+    const sf::Vector2i &getPosition();
 
-    void setPosition(const sf::Vector2f &position);
+    void setPosition(const sf::Vector2i &position);
 
-    const sf::Vector2f &getNumberOfCells();
+    const sf::Vector2i &getNumberOfCells();
 
-    void setNumberOfCells(const sf::Vector2f &numberOfCells);
+    void setNumberOfCells(const sf::Vector2i &numberOfCells);
 
-    const sf::Vector2f &getSizeOfCells();
+    const sf::Vector2i &getSizeOfCells();
 
-    void setSizeOfCells(const sf::Vector2f &sizeOfCells);
+    void setSizeOfCells(const sf::Vector2i &sizeOfCells);
 
     bool isPlay();
 

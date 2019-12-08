@@ -13,13 +13,13 @@
 class Grid : public sf::Drawable {
 private:
     std::vector<std::vector<Cell>> cells;
-    sf::Vector2f numberOfCells;
-    sf::Vector2f sizeOfCell;
-    sf::Vector2f position;
+    sf::Vector2i numberOfCells;
+    sf::Vector2i sizeOfCell;
+    sf::Vector2i position;
     bool generated;
     bool inUse;
 public:
-    Grid(const sf::Vector2f &numberOfCells, const sf::Vector2f &position, const sf::Vector2f &sizeOfCell);
+    Grid(const sf::Vector2i &numberOfCells, const sf::Vector2i &position, const sf::Vector2i &sizeOfCell);
 
     void generateGrid();
     void findNeighbors();
@@ -49,17 +49,17 @@ public:
 
     void setCells(const std::vector<std::vector<Cell>> &cells);
 
-    const sf::Vector2f &getNumberOfCells();
+    const sf::Vector2i &getNumberOfCells();
 
-    void setNumberOfCells(const sf::Vector2f &numberOfCells);
+    void setNumberOfCells(const sf::Vector2i &numberOfCells);
 
-    const sf::Vector2f &getPosition();
+    const sf::Vector2i &getPosition();
 
-    void setPosition(const sf::Vector2f &position);
+    void setPosition(const sf::Vector2i &position);
 
-    const sf::Vector2f &getSizeOfCell();
+    const sf::Vector2i &getSizeOfCell();
 
-    void setSizeOfCell(const sf::Vector2f &sizeOfCell);
+    void setSizeOfCell(const sf::Vector2i &sizeOfCell);
 
     bool isGenerated() const;
 

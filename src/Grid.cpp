@@ -15,33 +15,33 @@ void Grid::setCells(const std::vector<std::vector<Cell>> &cells) {
     Grid::cells = cells;
 }
 
-const sf::Vector2f &Grid::getNumberOfCells() {
+const sf::Vector2i &Grid::getNumberOfCells() {
     return numberOfCells;
 }
 
-void Grid::setNumberOfCells(const sf::Vector2f &numberOfCells) {
+void Grid::setNumberOfCells(const sf::Vector2i &numberOfCells) {
     Grid::numberOfCells = numberOfCells;
 }
 
-const sf::Vector2f &Grid::getPosition() {
+const sf::Vector2i &Grid::getPosition() {
     return position;
 }
 
-void Grid::setPosition(const sf::Vector2f &position) {
+void Grid::setPosition(const sf::Vector2i &position) {
     Grid::position = position;
 }
 
-Grid::Grid(const sf::Vector2f &numberOfCells, const sf::Vector2f &position, const sf::Vector2f &sizeOfCell) : numberOfCells(numberOfCells),
+Grid::Grid(const sf::Vector2i &numberOfCells, const sf::Vector2i &position, const sf::Vector2i &sizeOfCell) : numberOfCells(numberOfCells),
                                                                               position(position),sizeOfCell(sizeOfCell),
                                                                               generated(false), inUse(false){
     cells = std::vector<std::vector<Cell>>(numberOfCells.x, std::vector<Cell>(numberOfCells.y));
 }
 
-const sf::Vector2f &Grid::getSizeOfCell() {
+const sf::Vector2i &Grid::getSizeOfCell() {
     return sizeOfCell;
 }
 
-void Grid::setSizeOfCell(const sf::Vector2f &sizeOfCell) {
+void Grid::setSizeOfCell(const sf::Vector2i &sizeOfCell) {
     Grid::sizeOfCell = sizeOfCell;
 }
 
@@ -53,7 +53,7 @@ void Grid::generateGrid() {
         cells[i] = std::vector<Cell>();
         for(int j(0); j < numberOfCells.y; j++)
         {
-            sf::Vector2f position = sf::Vector2f(i * sizeOfCell.x, j * sizeOfCell.y);
+            sf::Vector2i position = sf::Vector2i(i * sizeOfCell.x, j * sizeOfCell.y);
             Cell c = Cell(position, sizeOfCell, 0);
             cells[i].push_back(c);
         }
@@ -73,6 +73,9 @@ void Grid::resetGrid() {
     cells = std::vector<std::vector<Cell>>(numberOfCells.x, std::vector<Cell>(numberOfCells.y));
 }
 
+/*
+ * findNeighbors() : for each cell, give her their neighbors
+ */
 void Grid::findNeighbors() {
     for(int i(0); i < numberOfCells.x; i++)
     {

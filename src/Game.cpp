@@ -10,9 +10,9 @@
 #include "vector"
 #include "SFML/Graphics.hpp"
 
-Game::Game() : position(sf::Vector2f()), numberOfCells(sf::Vector2f()), sizeOfCells(sf::Vector2f()), play(false), grid(sf::Vector2f(), sf::Vector2f(), sf::Vector2f()), iteration(0), delay(100) {}
+Game::Game() : position(sf::Vector2i()), numberOfCells(sf::Vector2i()), sizeOfCells(sf::Vector2i()), play(false), grid(sf::Vector2i(), sf::Vector2i(), sf::Vector2i()), iteration(0), delay(100) {}
 
-Game::Game(const sf::Vector2f &position, const sf::Vector2f &numberOfCells, const sf::Vector2f &sizeOfCells, bool play, int delay)
+Game::Game(const sf::Vector2i &position, const sf::Vector2i &numberOfCells, const sf::Vector2i &sizeOfCells, bool play, int delay)
         : position(position), numberOfCells(numberOfCells), sizeOfCells(sizeOfCells), play(play), grid(numberOfCells, position, sizeOfCells), iteration(0), delay(delay) {
     srand(time(NULL));
     grid.generateGrid();
@@ -49,8 +49,7 @@ void Game::gameOfLife() {
 
     grid.setInUse(false);
     iteration++;
-    std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-
+    sf::sleep(sf::milliseconds(delay));
 }
 
 void Game::resetGrid() {
@@ -84,29 +83,29 @@ void Game::setGrid(const Grid &grid) {
     Game::grid = grid;
 }
 
-const sf::Vector2f &Game::getPosition() {
+const sf::Vector2i &Game::getPosition() {
     return position;
 }
 
-void Game::setPosition(const sf::Vector2f &position) {
+void Game::setPosition(const sf::Vector2i &position) {
     Game::position = position;
 }
 
-const sf::Vector2f &Game::getNumberOfCells() {
+const sf::Vector2i &Game::getNumberOfCells() {
     return numberOfCells;
 }
 
-void Game::setNumberOfCells(const sf::Vector2f &numberOfCells) {
+void Game::setNumberOfCells(const sf::Vector2i &numberOfCells) {
     grid.setNumberOfCells(numberOfCells);
     grid.generateGrid();
     Game::numberOfCells = numberOfCells;
 }
 
-const sf::Vector2f &Game::getSizeOfCells() {
+const sf::Vector2i &Game::getSizeOfCells() {
     return sizeOfCells;
 }
 
-void Game::setSizeOfCells(const sf::Vector2f &sizeOfCells) {
+void Game::setSizeOfCells(const sf::Vector2i &sizeOfCells) {
     grid.setSizeOfCell(sizeOfCells);
     grid.generateGrid();
     Game::sizeOfCells = sizeOfCells;

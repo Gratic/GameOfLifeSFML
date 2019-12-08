@@ -6,27 +6,47 @@
 #include <map>
 #include "SFML/Graphics.hpp"
 
-sf::Vector2f Cell::getPosition() {
+Cell::Cell(sf::Vector2i position, sf::Vector2i size, int status) : position(position), size(size), status(rand() % 2) {
+    setNeighbors(std::map<char,Cell&>());
+    positionIndexes = sf::Vector2i(position.x / size.x, position.y / size.x);
+}
+
+Cell::Cell() {}
+
+int Cell::numberOfNeighbors() const {
+    return neighbors.size();
+}
+
+int Cell::numberOfNeighbors(int status) const {
+    int count(0);
+    for (auto const& x : getNeighbors()) {
+        if(x.second.getStatus() == status)
+            count++;
+    }
+    return count;
+}
+
+sf::Vector2i Cell::getPosition() {
     return position;
 }
 
-void Cell::setPosition(sf::Vector2f position) {
+void Cell::setPosition(sf::Vector2i position) {
     Cell::position = position;
 }
 
-sf::Vector2f Cell::getPositionIndexes() {
+sf::Vector2i Cell::getPositionIndexes() {
     return positionIndexes;
 }
 
-void Cell::setPositionIndexes(sf::Vector2f positionIndexes) {
+void Cell::setPositionIndexes(sf::Vector2i positionIndexes) {
     Cell::positionIndexes = positionIndexes;
 }
 
-sf::Vector2f Cell::getSize() {
+sf::Vector2i Cell::getSize() {
     return size;
 }
 
-void Cell::setSize(sf::Vector2f size) {
+void Cell::setSize(sf::Vector2i size) {
     Cell::size = size;
 }
 
@@ -44,24 +64,4 @@ int Cell::getStatus() const {
 
 void Cell::setStatus(int status) {
     Cell::status = status;
-}
-
-Cell::Cell(sf::Vector2f position, sf::Vector2f size, int status) : position(position), size(size), status(rand() % 2) {
-    setNeighbors(std::map<char,Cell&>());
-    positionIndexes = sf::Vector2f(position.x / size.x, position.y / size.x);
-}
-
-Cell::Cell() {}
-
-int Cell::numberOfNeighbors() const {
-    return neighbors.size();
-}
-
-int Cell::numberOfNeighbors(int status) const {
-    int count(0);
-    for (auto const& x : getNeighbors()) {
-        if(x.second.getStatus() == status)
-            count++;
-    }
-    return count;
 }
